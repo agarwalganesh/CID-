@@ -1075,6 +1075,11 @@ const CSIR_SUBJECTS = {
     careers:["JRF-funded PhD in Chemistry", "Assistant Professor in Chemistry departments", "Scientist roles in CSIR labs (NCL, IICT, CDRI etc.)", "R&D in pharma, petrochemical and materials industries"],
     relatedExams:["GATE (Chemistry / Chemical Engineering)","UGC-NET (if pivoting to a non-CSIR subject)","CUET-PG (MSc Chemistry admissions)","GPAT (if pivoting toward pharmacy)"],
     desc:"Covers Organic, Inorganic, Physical and Analytical Chemistry at postgraduate depth.",
+    partPattern:{ totalQ:120, attempt:75, marks:200, parts:[
+      ['A','20 Q · attempt 15','+2','\u22120.5'],
+      ['B','40 Q · attempt 35','+2','\u22120.5'],
+      ['C','60 Q · attempt 25','+4','\u22121']
+    ]},
     keyTopics:["Structure & bonding (VBT, MOT, hybridisation)","Organic reaction mechanisms & stereochemistry","Chemical thermodynamics & equilibria","Spectroscopy — UV-Vis, IR, NMR, Mass","Coordination chemistry & organometallics","Electrochemistry & chemical kinetics","Periodic properties & main group chemistry","Pericyclic reactions & named reactions"]
   },
   "earth-sci": {
@@ -1086,6 +1091,11 @@ const CSIR_SUBJECTS = {
     careers:["JRF-funded PhD in Earth/Ocean/Atmospheric Sciences", "Scientist roles at ISRO, IMD, NIO, ONGC, GSI", "Assistant Professor in Geology/Earth Science departments"],
     relatedExams:["GATE (Geology & Geophysics)","IIT-JAM Geology (as an earlier-stage feeder)","UPSC Geologist / Combined Geo-scientist exam","ISRO/GSI recruitment exams"],
     desc:"Officially titled 'Earth, Atmospheric, Ocean & Planetary Sciences' — a single combined subject covering Geology, Geophysics, Meteorology, Ocean Sciences and Planetary Science.",
+    partPattern:{ totalQ:150, attempt:75, marks:200, parts:[
+      ['A','20 Q · attempt 15','+2','\u22120.5'],
+      ['B','40 Q · attempt 35','+2','\u22120.5'],
+      ['C','90 Q · attempt 25','+4','\u22121.33 (33%)']
+    ]},
     keyTopics:["Structural geology & tectonics","Mineralogy & petrology","Sedimentology & stratigraphy","Geomorphology","Physical oceanography basics","Atmospheric science & climatology","Geophysics fundamentals (seismology, gravity)","Remote sensing & GIS applications"]
   },
   "life-sci": {
@@ -1096,6 +1106,11 @@ const CSIR_SUBJECTS = {
     careers:["JRF-funded PhD in Life Sciences at IISc, IITs, central universities", "Scientist roles in CSIR labs (IGIB, CCMB, NII)", "Assistant Professor in Life Science departments", "R&D roles in biotech/pharma"],
     relatedExams:["GATE Biotechnology (XL)","IIT-JAM Biotechnology","ICMR-JRF (biomedical research)","DBT-JRF (biotechnology-specific fellowship)","UGC-NET (if pivoting to a non-science life discipline)"],
     desc:"Because of the size of the applicant pool, Life Sciences is scored on a normalised percentile (NTA score) rather than raw percentage — this is why its cutoffs look numerically different from other CSIR-NET subjects.",
+    partPattern:{ totalQ:120, attempt:75, marks:200, parts:[
+      ['A','20 Q · attempt 15','+2','\u22120.5'],
+      ['B','40 Q · attempt 35','+2','\u22120.5'],
+      ['C','60 Q · attempt 25','+4','\u22121']
+    ]},
     keyTopics:["Molecular biology & gene regulation","Cell biology & cell signalling","Biochemistry & metabolism","Microbiology & immunology","Ecology, evolution & biodiversity","Plant & animal physiology","Genetics & genetic engineering","Biophysical & analytical techniques (chromatography, electrophoresis, microscopy)"]
   },
   "math-sci": {
@@ -1106,6 +1121,11 @@ const CSIR_SUBJECTS = {
     careers:["JRF-funded PhD in Mathematics", "Assistant Professor in Mathematics departments", "Scientist/analyst roles requiring strong quantitative training"],
     relatedExams:["GATE Mathematics (MA)","IIT-JAM Mathematics / Mathematical Statistics","UGC-NET Mathematical Sciences (parallel eligibility track)"],
     desc:"Typically the smallest applicant pool among the five subjects but with strong overlap into GATE and IIT-JAM Mathematics.",
+    partPattern:{ totalQ:120, attempt:60, marks:200, parts:[
+      ['A','Common section','+2','\u22120.5'],
+      ['B','Subject-specific','+3','\u22120.75'],
+      ['C','Higher-value, MSQ-style','Varies','No negative marking']
+    ], note:'Mathematical Sciences has the lowest attempt count of the five subjects (60, vs 75 elsewhere) and a distinctive Part C: questions can carry more than one correct option, and there is no negative marking on Part C at all. Exact per-part question/attempt split isn\u2019t as consistently published as the other subjects — confirm against the current notification.' },
     keyTopics:["Real analysis & metric spaces","Complex analysis","Linear algebra","Abstract algebra (groups, rings, fields)","Ordinary & partial differential equations","Topology","Numerical analysis","Probability & statistics"]
   },
   "phys-sci": {
@@ -1116,6 +1136,11 @@ const CSIR_SUBJECTS = {
     careers:["JRF-funded PhD in Physics", "Assistant Professor in Physics departments", "Scientist roles at DRDO, BARC, ISRO, national physics labs"],
     relatedExams:["GATE Physics (PH)","IIT-JAM Physics","BARC/DRDO scientist recruitment (often accepts GATE/NET-qualified candidates)"],
     desc:"Covers Classical Mechanics, Electromagnetism, Quantum Mechanics, Thermodynamics & Statistical Physics, and Electronics at postgraduate depth.",
+    partPattern:{ totalQ:75, attempt:75, marks:200, parts:[
+      ['A','General Aptitude','+2','\u22120.5'],
+      ['B','Subject-specific','+3.5','\u22120.875'],
+      ['C','Higher-value, applied','+5','\u22121.25']
+    ], note:'Physical Sciences uniquely gives different marks per part (2 / 3.5 / 5) instead of the 2/2/4 split most other subjects use — Part C questions are worth the most, so prioritise accuracy there.' },
     keyTopics:["Classical mechanics","Electromagnetic theory","Quantum mechanics","Thermodynamics & statistical mechanics","Atomic, molecular & condensed matter physics","Electronics & experimental methods","Mathematical methods of physics","Nuclear & particle physics"]
   }
 };
@@ -4937,8 +4962,122 @@ setTimeout(function(){var current=document.querySelector('.cid-current-category'
   var PHARMA_TABS = {
     gpat: { icon: '🎓', name: 'GPAT', sub: 'M.Pharm entrance \u2014 500 marks' },
     vacancy: { icon: '🏛️', name: 'Govt Vacancies', sub: 'RRB, ESIC, State PSC & more' },
-    semester: { icon: '📚', name: 'Semester', sub: 'B.Pharm \u2014 4 years, 8 semesters' }
+    semester: { icon: '📚', name: 'Semester', sub: 'B.Pharm \u2014 4 years, 8 semesters' },
+    bsc: { icon: '🔬', name: 'B.Sc', sub: 'Physics, Chemistry, Maths, Zoology, Botany \u2014 3 years' }
   };
+
+  var BSC_SUBJECTS = {
+    physics:{icon:'⚛️', name:'Physics'},
+    chemistry:{icon:'🧪', name:'Chemistry'},
+    maths:{icon:'📐', name:'Mathematics'},
+    zoology:{icon:'🐾', name:'Zoology'},
+    botany:{icon:'🌿', name:'Botany'}
+  };
+
+  var BSC_UNITS = {
+    physics: {
+      '1-1':['Vector Analysis (gradient, divergence, curl, Stokes\u2019/Gauss\u2019 theorems)','Ordinary Differential Equations & basic linear algebra','Newtonian Mechanics \u2014 laws of motion, work-energy theorem, conservation laws','System of particles & rotational dynamics','Central force motion & Kepler\u2019s laws','Special Theory of Relativity (introductory)'],
+      '1-2':['Electric fields & Gauss\u2019s law','Electric potential, capacitance & dielectrics','Magnetic fields, electromagnetic induction','Simple harmonic motion; damped & forced oscillations','Wave motion & superposition of waves','Physical optics \u2014 interference, diffraction, polarization'],
+      '2-1':['Complex analysis & special functions (Legendre, Bessel)','Fourier series & Fourier transforms','Kinetic theory of gases','Laws of thermodynamics & entropy','Statistical mechanics basics (Maxwell-Boltzmann distribution)','Digital electronics \u2014 logic gates & Boolean algebra'],
+      '2-2':['Vector spaces & matrices (eigenvalues/eigenvectors intro)','Partial differential equations','Semiconductor physics & p-n junction diodes','Transistors & amplifier circuits','Operational amplifiers','Basic network analysis'],
+      '3-1':['Wave-particle duality & the Schr\u00f6dinger equation','Quantum mechanics of simple systems (particle in a box, harmonic oscillator)','Crystal structure & X-ray diffraction','Band theory of solids','Maxwell\u2019s equations & electromagnetic theory','Electromagnetic wave propagation'],
+      '3-2':['Nuclear structure & radioactivity','Nuclear reactions & nuclear models','Elementary particle physics','Communication systems (AM/FM basics)','Microprocessors & advanced digital systems','Astrophysics & astronomy (elective topic)']
+    },
+    chemistry: {
+      '1-1':['Atomic structure \u2014 quantum numbers & electronic configuration','Periodicity of elements','Chemical bonding \u2014 VBT, MOT, hybridisation','Nomenclature & basic concepts of organic chemistry','Stereochemistry \u2014 isomerism & chirality','Aliphatic hydrocarbons'],
+      '1-2':['Gaseous state & kinetic theory of gases','Liquid state & solutions','Chemical thermodynamics \u2014 laws, entropy, free energy','s-Block elements','p-Block elements (Groups 13\u201314)','Chemistry of noble gases'],
+      '2-1':['Coordination chemistry \u2014 Werner\u2019s theory & nomenclature','d-Block elements (transition metals)','f-Block elements (lanthanides & actinides)','Aromatic hydrocarbons & electrophilic substitution','Alkyl & aryl halides','Reaction mechanisms \u2014 SN1, SN2, E1, E2'],
+      '2-2':['Chemical equilibrium','Ionic equilibrium & pH','Electrochemistry \u2014 conductance, cells, EMF','Alcohols, phenols & ethers','Carbonyl compounds (aldehydes & ketones)','Carboxylic acids & derivatives'],
+      '3-1':['Quantum chemistry \u2014 Schr\u00f6dinger equation applications','Spectroscopy \u2014 UV-Vis, IR, NMR basics','Photochemistry','Nitrogen-containing compounds \u2014 amines & amides','Chemistry of natural products (carbohydrates, amino acids)','Analytical chemistry \u2014 titrimetric & gravimetric methods'],
+      '3-2':['Organometallic chemistry','Bioinorganic chemistry','Polymer chemistry','Instrumental methods of analysis (chromatography, electrochemical)','Green chemistry','Industrial & environmental chemistry']
+    },
+    maths: {
+      '1-1':['Differential calculus \u2014 limits, continuity, differentiability','Successive differentiation & applications','Integral calculus & reduction formulae','Theory of equations','Matrices & determinants','Complex numbers & De Moivre\u2019s theorem'],
+      '1-2':['Real number system & sequences','Series & convergence tests','First order differential equations','Linear differential equations with constant coefficients','Coordinate geometry \u2014 conics (2D)','Vector algebra & geometry'],
+      '2-1':['Groups, subgroups & cyclic groups','Permutation groups & Lagrange\u2019s theorem','Functions of several variables','Partial derivatives & applications','Multiple integrals','3D coordinate geometry'],
+      '2-2':['Rings, subrings & ideals','Vector spaces & linear transformations','Partial differential equations \u2014 formation & Lagrange\u2019s method','Systems of linear ODEs','Numerical methods for solving equations','Laplace transforms'],
+      '3-1':['Metric spaces & continuity','Complex functions & analyticity','Complex integration (Cauchy\u2019s theorems)','Linear algebra-II \u2014 eigenvalues & eigenvectors','Inner product spaces','Field theory basics'],
+      '3-2':['Numerical solutions of algebraic equations','Numerical integration & differentiation','Probability theory \u2014 axioms & distributions','Random variables & expectation','Statistical methods \u2014 correlation & regression','Mechanics / operations research (elective)']
+    },
+    zoology: {
+      '1-1':['Protozoa & Porifera','Cnidaria & Helminthes','Annelida & Arthropoda','Mollusca & Echinodermata','Carbohydrates, lipids & proteins (biomolecules)','Enzymes & bioenergetics'],
+      '1-2':['Protochordata & Agnatha','Pisces & Amphibia','Reptilia & Aves','Mammalia','Comparative anatomy \u2014 integument & skeletal system','Comparative anatomy \u2014 digestive & circulatory systems'],
+      '2-1':['Cell structure & organelles','Cell division \u2014 mitosis & meiosis','Mendelian genetics & extensions','Chromosomal theory of inheritance','Linkage & crossing over','Mutation & chromosomal aberrations'],
+      '2-2':['Digestion & respiration (comparative physiology)','Circulation & excretion','Nervous & endocrine systems','DNA replication, transcription & translation','Gene regulation','Recombinant DNA technology basics'],
+      '3-1':['Gametogenesis & fertilization','Early embryonic development','Organogenesis','Theories of evolution (Darwinism, Neo-Darwinism)','Evidence & mechanisms of evolution','Speciation & population genetics'],
+      '3-2':['Ecosystem structure & function','Population ecology','Animal behaviour (ethology)','Wildlife biology & conservation','Economic zoology (apiculture, sericulture)','Biotechnology applications in zoology']
+    },
+    botany: {
+      '1-1':['Viruses & bacteria','Mycology \u2014 fungi classification & life cycles','Plant pathology & disease management','Carbohydrates, lipids & proteins','Enzymes','Nucleic acids'],
+      '1-2':['Algae \u2014 classification & life cycles','Bryophytes','Pteridophytes','Gymnosperms','Plant taxonomy \u2014 classification systems & nomenclature','Plant ecology basics'],
+      '2-1':['Water relations & mineral nutrition','Photosynthesis','Respiration','Plant growth & development (hormones)','Mendelian genetics in plants','Cytogenetics'],
+      '2-2':['Plant cell structure & biology','DNA replication & gene expression in plants','Plant tissue culture','Genetic engineering in plants','Molecular markers','rDNA technology'],
+      '3-1':['Economically important plants (cereals, pulses, fibres)','Medicinal & aromatic plants','Biodiversity & conservation','Plant cell ultrastructure','Cell signalling','Angiosperm anatomy'],
+      '3-2':['Ecosystem dynamics','Environmental pollution & management','Phytogeography','Angiosperm embryology','Plant breeding','Palynology']
+    }
+  };
+
+  var BSC_PW_UNITS = {
+    physics: ['Mechanics','Electricity and Magnetism [Core \u2022 Sem II]','Thermal Physics and Statistical Mechanics','Waves and Optics','Digital and Analog Circuits and Instrumentation [DSE]','Elements of Modern Physics [DSE]','Mathematical Physics [DSE]','Solid State Physics [DSE]','Quantum Mechanics [DSE]','Embedded System: Introduction to Microcontrollers [DSE]','Nuclear and Particle Physics [DSE]','Medical Physics [DSE]','Physics Workshop Skill [SEC]','Computational Physics Skills [SEC]','Electrical Circuit Network Skills [SEC]','Basic Instrumentation Skills [SEC]','Renewable Energy and Energy Harvesting [SEC]','Mechanical Drawing [SEC]','Radiation Safety [SEC]','Applied Optics [SEC]','Weather Forecasting [SEC]'],
+    chemistry: ['Atomic Structure','Periodicity','Chemical Bonding','s-Block Elements','p-Block Elements','Coordination Chemistry','Transition Elements','Lanthanides & Actinides','Organometallic Compounds','Bioinorganic Chemistry','Acids and Bases Chemistry','Inorganic Polymers','General Principles of Metallurgy','Structure & Bonding in Organic Molecules','Stereochemistry','Reaction Mechanisms (SN1/SN2/E1/E2)','Aliphatic Hydrocarbons','Aromatic Compounds & Aromaticity','Alcohols, Phenols & Ethers','Carbonyl Compounds','Halogen Compounds','Nitrogen-Containing Compounds (Amines, Diazonium Salts)','Carbohydrates','Amino Acids, Peptides & Proteins','Organic Spectroscopy (UV, IR, NMR)','Polymers & Dyes','Gaseous State','Liquid State','Solid State (Crystal Structure)','Thermodynamics & Thermochemistry','Chemical Equilibrium','Ionic Equilibrium (pH, Buffers, Hydrolysis)','Phase Equilibria','Solutions & Colligative Properties','Electrochemistry','Chemical Kinetics','Catalysis & Adsorption','Quantum Chemistry','Molecular Spectroscopy (Rotational/Vibrational/Raman)','Photochemistry','Nuclear Chemistry'],
+    maths: ['Calculus','Algebra','Probability and Statistics','Real Analysis','Differential Equations','Theory of Real Functions','Group Theory 1','Multivariate Calculus','Discrete Mathematics','Partial Differential Equations','Riemann Integration & Series of Functions','Ring Theory & Linear Algebra-I','Metric Spaces','Group Theory-II','Numerical Analysis','Mathematical Statistics','Complex Analysis','Ring Theory and Linear Algebra-II','Number Theory','Linear Programming and Applications','Integral Transforms','Fundamentals of Topology','Integral Equations and Calculus of Variations'],
+    zoology: ['Non-Chordates','Principles of Ecology','Non-Chordates II: Coelomates','Cell Biology','Diversity of Chordata','Animal Physiology','Biochemistry','Comparative Anatomy','Animal Physiology \u2014 Life Sustaining Systems','Biochemistry of Metabolic Processes','Molecular Biology','Genetics','Developmental Biology','Evolutionary Biology'],
+    botany: ['Phycology (Algae)','Mycology (Fungi)','Microbiology (Bacteria and Viruses)','Mycoplasma','Lichens','Mycorrhiza','Bryology (Bryophytes)','Pteridology (Pteridophytes)','Gymnosperms','Paleobotany','Taxonomy of Angiosperms','Economic Botany','Ecology','Embryology and Morphogenesis','Plant Anatomy','Genetics','Plant Breeding','Plant Physiology','Plant Metabolism','Biochemistry','Cell Biology','Cell Organelles','Molecular Biology','Biotechnology','Mushroom Cultivation','Plant Pathology']
+  };
+
+  var bscState = { subject:null, year:'1', view:'year' };
+
+  function bscOverview(){
+    var cards = Object.keys(BSC_SUBJECTS).map(function(subj){
+      var s = BSC_SUBJECTS[subj];
+      return '<button type="button" class="exam-icon-card" data-bsc-subject="'+subj+'">'+
+        '<span class="exam-icon">'+s.icon+'</span>'+
+        '<b>'+s.name+'</b>'+
+        '<span>3-year consolidated syllabus</span>'+
+        '<em>Explore →</em>'+
+      '</button>';
+    }).join('');
+    return back('Pharma') + `
+      <section class="upsc-section" style="margin-top:18px;">
+        <div class="cid-kicker">PHARMA \u2014 B.SC</div>
+        <h2>🔬 B.Sc \u2014 Physics, Chemistry, Maths, Zoology, Botany</h2>
+        <p class="sub">A consolidated, university-agnostic unit list for each subject \u2014 built from the UGC CBCS model curriculum that most central universities base their own syllabus on. Tap a subject to explore it year by year.</p>
+        <div class="exam-icon-grid" style="margin-top:22px;">${cards}</div>
+      </section>`;
+  }
+
+  function bscSubjectDetail(subj){
+    var s = BSC_SUBJECTS[subj];
+    if(!s) return bscOverview();
+    var yearTabs = ['1','2','3'].map(function(y){
+      return '<button type="button" class="jee-tab-btn'+(y===bscState.year?' active':'')+'" data-bsc-year="'+y+'">Year '+y+'</button>';
+    }).join('');
+    var pwToggle = '<button type="button" class="jee-tab-btn bsc-pw-toggle'+(bscState.view==='pw'?' active':'')+'" data-bsc-view="pw">📌 Units Covered by PW</button>';
+    var sem1 = BSC_UNITS[subj][bscState.year+'-1'] || [];
+    var sem2 = BSC_UNITS[subj][bscState.year+'-2'] || [];
+    function semColumn(label, units){
+      var li = units.map(function(u,i){ return '<li><b>Unit '+(i+1)+'.</b> '+u+'</li>'; }).join('');
+      return '<div class="bsc-sem-col"><div class="bsc-sem-label">'+label+'</div><ul class="bsc-unit-list">'+li+'</ul></div>';
+    }
+    var bodyHTML;
+    if(bscState.view === 'pw'){
+      var pwUnits = BSC_PW_UNITS[subj] || [];
+      var pwList = pwUnits.map(function(u,i){ return '<li><b>'+(i+1)+'.</b> '+u+'</li>'; }).join('');
+      bodyHTML = '<div class="bsc-pw-panel"><div class="bsc-sem-label">Units Covered by PW \u2014 '+s.name+'</div><ul class="bsc-unit-list bsc-pw-list">'+pwList+'</ul>'+
+        '<div class="ca-step-note" style="margin-top:10px;">This is PW\u2019s own internal curriculum tracker (Gurukul Honors) \u2014 not tied to a specific year/semester, since PW\u2019s own pacing can differ from the university calendar shown in the Year view.</div></div>';
+    } else {
+      bodyHTML = '<div class="bsc-sem-grid" style="margin-top:6px;">'+semColumn('Semester '+(parseInt(bscState.year)*2-1), sem1)+semColumn('Semester '+(parseInt(bscState.year)*2), sem2)+'</div>'+
+        '<div class="ca-step-note" style="margin-top:14px;">This is a consolidated reference spanning common CBCS-based papers \u2014 always cross-check against the specific university\u2019s current syllabus, since elective (DSE/SEC) choices can add or swap a unit or two.</div>';
+    }
+    return '<button class="cid-back" type="button" data-bsc-back-grid style="margin-top:22px;">← Back to B.Sc</button>' + `
+      <section class="upsc-section" style="margin-top:18px;">
+        <div class="cid-kicker">PHARMA \u2014 B.SC \u2014 ${s.name.toUpperCase()}</div>
+        <h2>${s.icon} ${s.name}</h2>
+        <p class="sub">Consolidated CBCS-based unit list, year by year \u2014 or switch to see what PW itself covers.</p>
+        <div class="jee-tabbar" style="margin-top:18px;gap:8px;flex-wrap:wrap;">${yearTabs}${pwToggle}</div>
+        <div style="margin-top:18px;">${bodyHTML}</div>
+      </section>`;
+  }
 
   function overview(){
     var cards = Object.keys(PHARMA_TABS).map(function(k){
@@ -5207,6 +5346,30 @@ setTimeout(function(){var current=document.querySelector('.cid-current-category'
         };
       });
     }
+    r.querySelectorAll('[data-bsc-subject]').forEach(function(btn){
+      btn.onclick = function(){
+        bscState.subject = this.getAttribute('data-bsc-subject');
+        bscState.year = '1';
+        bscState.view = 'year';
+        render('bsc:'+bscState.subject);
+      };
+    });
+    r.querySelectorAll('[data-bsc-back-grid]').forEach(function(btn){
+      btn.onclick = function(){ render('bsc'); };
+    });
+    r.querySelectorAll('[data-bsc-year]').forEach(function(btn){
+      btn.onclick = function(){
+        bscState.year = this.getAttribute('data-bsc-year');
+        bscState.view = 'year';
+        render('bsc:'+bscState.subject);
+      };
+    });
+    r.querySelectorAll('[data-bsc-view]').forEach(function(btn){
+      btn.onclick = function(){
+        bscState.view = this.getAttribute('data-bsc-view');
+        render('bsc:'+bscState.subject);
+      };
+    });
   }
 
   function render(view){
@@ -5216,6 +5379,8 @@ setTimeout(function(){var current=document.querySelector('.cid-current-category'
     if(view === 'gpat') r.innerHTML = gpatDetail();
     else if(view === 'vacancy') r.innerHTML = vacancyDetail();
     else if(view === 'semester') r.innerHTML = semesterDetail();
+    else if(view === 'bsc') r.innerHTML = bscOverview();
+    else if(view && view.indexOf('bsc:') === 0) r.innerHTML = bscSubjectDetail(view.slice(4));
     else r.innerHTML = overview();
     bind();
   }
@@ -5230,7 +5395,8 @@ setTimeout(function(){var current=document.querySelector('.cid-current-category'
           {key:'overview', label:'Pharma Overview'},
           {key:'gpat', label:'GPAT'},
           {key:'vacancy', label:'Govt Vacancies'},
-          {key:'semester', label:'Semester'}
+          {key:'semester', label:'Semester'},
+          {key:'bsc', label:'B.Sc'}
         ], 'overview', function(key){
           var backBtn = document.querySelector('[data-pharma-back]');
           if(backBtn) backBtn.click();
@@ -5645,6 +5811,30 @@ document.addEventListener('click', function(e){
 
 </script>
 
+<style id="csir-pattern-style">
+.bsc-pw-toggle{background:#fff9f0 !important;border-color:#f0ddb8 !important;color:#8a5a08 !important;}
+.bsc-pw-toggle.active{background:#c47f0a !important;border-color:#c47f0a !important;color:#fff !important;}
+.bsc-pw-panel{border:1px solid #f0ddb8;border-radius:14px;padding:16px;background:linear-gradient(135deg,#fff9f0,#fff);}
+.bsc-pw-list li{color:#6b5a3a;}
+.bsc-pw-list li b{color:#c47f0a;}
+.bsc-sem-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px;}
+.bsc-sem-col{border:1px solid #e3e8ef;border-radius:14px;padding:16px;background:#fbfcff;}
+.bsc-sem-label{font-size:11px;font-weight:800;letter-spacing:.06em;text-transform:uppercase;color:#2952E3;margin-bottom:10px;}
+@media(max-width:700px){.bsc-sem-grid{grid-template-columns:1fr;}}
+.bsc-unit-list{margin:8px 0 0;padding-left:18px;}
+.bsc-unit-list li{margin-bottom:8px;font-size:13px;color:#44546a;line-height:1.5;}
+.bsc-unit-list li b{color:#2952E3;}
+[data-bsc-paper-id].ca-paper-item.open .ca-paper-body{max-height:900px;}
+.csir-pattern-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px;}
+.csir-part-card{background:#f6f8fc;border:1px solid #e3e8ef;border-radius:10px;padding:10px 6px;text-align:center;}
+.csir-part-letter{display:inline-flex;align-items:center;justify-content:center;width:22px;height:22px;border-radius:50%;background:#2952E3;color:#fff;font-weight:800;font-size:12px;margin-bottom:6px;}
+.csir-part-info{font-size:10.5px;color:#607086;margin-bottom:6px;line-height:1.3;min-height:26px;}
+.csir-part-stats{display:flex;justify-content:center;gap:8px;font-size:12px;font-weight:700;flex-wrap:wrap;}
+.csir-plus{color:#1a7f4b;}
+.csir-minus{color:#c0392b;}
+.csir-pattern-total{margin-top:10px;font-size:11.5px;color:#7a8797;text-align:center;font-weight:600;}
+@media(max-width:560px){.csir-pattern-grid{grid-template-columns:1fr;}}
+</style>
 <style id="defence-category-style">
 .df-checker{margin:14px 0 20px;padding:20px;border:1px solid #dbe3f2;border-radius:16px;background:linear-gradient(135deg,#f7f9ff,#fff);}
 .df-check-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px;}
@@ -7519,6 +7709,16 @@ document.addEventListener('click', function(e){
       '<div class="ca-step-note" style="margin-top:10px;">'+unitNote+' Source: '+records[0].source+(records[0].verified ? '' : ' \u2014 Verification Required.')+'</div>';
   }
 
+  function csirPatternHTML(pp){
+    var partsHTML = pp.parts.map(function(p){
+      return '<div class="csir-part-card"><div class="csir-part-letter">'+p[0]+'</div><div class="csir-part-info">'+p[1]+'</div><div class="csir-part-stats"><span class="csir-plus">'+p[2]+'</span><span class="csir-minus">'+p[3]+'</span></div></div>';
+    }).join('');
+    var noteHTML = pp.note ? '<div class="ca-step-note" style="margin-top:8px;">'+pp.note+'</div>' : '';
+    return '<div class="csir-pattern-grid">'+partsHTML+'</div>'+
+      '<div class="csir-pattern-total">Total: '+pp.attempt+' questions attempted (of '+pp.totalQ+') · '+pp.marks+' marks · 3 hours</div>'+
+      noteHTML;
+  }
+
   function subjectDetailPage(examId, subjectId){
     var exam = EXAMS[examId];
     var subjectsMap = subjectsMapFor(examId);
@@ -7534,7 +7734,7 @@ document.addEventListener('click', function(e){
         <div class="ca-step-card">${chipList(s.keyTopics || [])}</div>
 
         <div class="exam-block-label">Paper Pattern & Marking Structure</div>
-        <div class="ca-step-card">${exam.pattern}<div class="ca-step-note" style="margin-top:8px;">${exam.marking}</div></div>
+        <div class="ca-step-card">${(examId === 'csirnet' && s.partPattern) ? csirPatternHTML(s.partPattern) : exam.pattern + '<div class="ca-step-note" style="margin-top:8px;">'+exam.marking+'</div>'}</div>
 
         <div class="exam-block-label">Cutoff Trend</div>
         <div class="ca-step-card">${cutoffTrendTable(examId, s.name)}</div>
