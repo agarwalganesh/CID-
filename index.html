@@ -7,26 +7,568 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@500;600&display=swap" rel="stylesheet">
 <style id="cid-auth-style">
-  #cidAuthGate{position:fixed;inset:0;z-index:1000;display:grid;place-items:center;padding:24px;background:linear-gradient(145deg,#eef3ff 0%,#f7f9fc 46%,#eef7f2 100%);overflow:auto}
-  #cidAuthGate[hidden]{display:none}
-  .cid-auth-card{width:min(440px,100%);padding:30px;background:#fff;border:1px solid #dfe5ef;border-radius:18px;box-shadow:0 18px 50px rgba(27,42,72,.12)}
-  .cid-auth-card h1{margin:0 0 7px;font:700 25px var(--font-display);color:#17213a}
-  .cid-auth-card p{margin:0 0 20px;color:#68758a;font-size:13px;line-height:1.55}
-  .cid-auth-field{margin:12px 0}.cid-auth-field label{display:block;margin-bottom:6px;font-size:12px;font-weight:700;color:#33445f}
-  .cid-auth-field input{width:100%;box-sizing:border-box;padding:11px 12px;border:1px solid #cdd7e6;border-radius:9px;font:inherit;color:#17213a;background:#fff}
-  .cid-auth-field input:focus{outline:3px solid #e4ebff;border-color:#3156c9}
-  .cid-auth-actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:18px}.cid-auth-actions button{padding:10px 14px;border:1px solid #cbd5e3;border-radius:8px;background:#fff;color:#3156c9;font-weight:700;cursor:pointer}.cid-auth-actions button:hover{border-color:#3156c9;background:#f4f7ff}.cid-auth-actions button:disabled{cursor:not-allowed;opacity:.55}
-  .cid-auth-actions button[type="submit"]{border-color:#3156c9;background:#3156c9;color:#fff}
-  .cid-auth-help{margin:7px 0 0;color:#68758a;font-size:11px}.cid-auth-message{min-height:20px;margin-top:14px;font-size:12px;font-weight:600;color:#b23d3d}.cid-auth-message.success{color:#197548}
-  .cid-auth-user{position:fixed;right:18px;top:14px;z-index:40;display:flex;align-items:center;gap:8px;font-size:11px;color:var(--ink-soft)}
-  #cidAuthUser[hidden],.cid-auth-user[hidden]{display:none !important}
-  .cid-auth-user button{border:1px solid var(--line);border-radius:7px;background:var(--surface);padding:6px 9px;color:var(--accent);font-weight:700;cursor:pointer}
-  .cid-auth-unverified{margin-top:14px;display:flex;gap:8px;flex-wrap:wrap;padding:12px;background:#fff8ec;border:1px solid #f2d49e;border-radius:10px}
-  .cid-auth-unverified[hidden]{display:none !important}
-  .cid-auth-unverified button{flex:1;min-width:130px;padding:8px 11px;font-size:11.5px;font-weight:700;border-radius:7px;border:1px solid #dcb065;background:#fff;color:#8f5f08;cursor:pointer}
-  .cid-auth-unverified button:hover{background:#fdf2dc}
-  .cid-auth-unverified button:disabled{opacity:.55;cursor:not-allowed}
-  body:not(.cid-auth-unlocked) .app{visibility:hidden !important;pointer-events:none !important}
+  #cidAuthGate {
+    position: fixed;
+    inset: 0;
+    z-index: 9999;
+    display: grid;
+    place-items: center;
+    padding: 24px 16px;
+    background: radial-gradient(100% 100% at 50% 0%, #eef4ff 0%, #f7f9fd 60%, #eef7f2 100%);
+    overflow-y: auto;
+    font-family: var(--font-body);
+  }
+  #cidAuthGate[hidden] { display: none !important; }
+
+  .cid-auth-card {
+    width: min(450px, 100%);
+    background: rgba(255, 255, 255, 0.97);
+    backdrop-filter: blur(20px);
+    border: 1px solid #dbe4f2;
+    border-radius: 22px;
+    box-shadow: 0 24px 64px rgba(18, 28, 56, 0.10), 0 2px 6px rgba(18, 28, 56, 0.04);
+    padding: 34px 32px 30px;
+    box-sizing: border-box;
+    position: relative;
+    transition: all 0.25s ease;
+  }
+
+  .cid-auth-brand-row {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 22px;
+  }
+  .cid-auth-logo {
+    width: 38px;
+    height: 38px;
+    border-radius: 10px;
+    background: linear-gradient(135deg, #2952E3 0%, #15329c 100%);
+    color: #fff;
+    font-family: var(--font-display);
+    font-weight: 800;
+    font-size: 15px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 4px 12px rgba(41, 82, 227, 0.28);
+    flex-shrink: 0;
+  }
+  .cid-auth-brand-text {
+    display: flex;
+    flex-direction: column;
+  }
+  .cid-auth-brand-title {
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: 15px;
+    color: #17213a;
+    line-height: 1.25;
+  }
+  .cid-auth-brand-badge {
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.07em;
+    color: #2952E3;
+    text-transform: uppercase;
+    font-family: var(--font-mono);
+  }
+
+  /* Segmented Mode Switcher Tabs */
+  .cid-auth-tabs {
+    display: flex;
+    background: #f0f3fa;
+    padding: 4px;
+    border-radius: 12px;
+    margin-bottom: 20px;
+    gap: 4px;
+  }
+  .cid-auth-tab {
+    flex: 1;
+    border: none;
+    background: transparent;
+    padding: 8px 12px;
+    border-radius: 9px;
+    font-size: 12.5px;
+    font-weight: 700;
+    color: #637089;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    font-family: inherit;
+    text-align: center;
+  }
+  .cid-auth-tab:hover {
+    color: #17213a;
+  }
+  .cid-auth-tab.active {
+    background: #ffffff;
+    color: #2952E3;
+    box-shadow: 0 2px 8px rgba(18, 28, 56, 0.08);
+  }
+
+  .cid-auth-header {
+    margin-bottom: 20px;
+  }
+  .cid-auth-header h1 {
+    font-family: var(--font-display);
+    font-size: 22px;
+    font-weight: 700;
+    color: #151e33;
+    margin: 0 0 6px;
+    letter-spacing: -0.02em;
+  }
+  .cid-auth-header p {
+    font-size: 13px;
+    color: #617088;
+    line-height: 1.5;
+    margin: 0;
+  }
+
+  .cid-auth-field {
+    margin-bottom: 16px;
+  }
+  .cid-auth-field .cid-label-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 6px;
+  }
+  .cid-auth-field label {
+    font-size: 12px;
+    font-weight: 700;
+    color: #2b3952;
+    display: block;
+    margin-bottom: 5px;
+  }
+  .cid-forgot-link {
+    font-size: 11.5px;
+    font-weight: 600;
+    color: #2952E3;
+    text-decoration: none;
+    cursor: pointer;
+  }
+  .cid-forgot-link:hover {
+    text-decoration: underline;
+  }
+
+  .cid-auth-field input {
+    width: 100%;
+    box-sizing: border-box;
+    padding: 11px 13px;
+    border: 1.5px solid #d1dbe9;
+    border-radius: 10px;
+    font-size: 13.5px;
+    color: #151e33;
+    background: #fff;
+    font-family: inherit;
+    transition: all 0.18s ease;
+  }
+  .cid-auth-field input:focus {
+    outline: none;
+    border-color: #2952E3;
+    box-shadow: 0 0 0 3.5px rgba(41, 82, 227, 0.14);
+  }
+
+  /* Password Wrapper with Eye Toggle */
+  .cid-password-wrap {
+    position: relative;
+    width: 100%;
+  }
+  .cid-password-wrap input {
+    padding-right: 44px !important;
+  }
+  .cid-password-toggle {
+    position: absolute;
+    right: 8px;
+    top: 50%;
+    transform: translateY(-50%);
+    background: transparent;
+    border: none;
+    color: #6a7991;
+    padding: 6px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    border-radius: 7px;
+    transition: color 0.15s ease, background 0.15s ease;
+  }
+  .cid-password-toggle:hover {
+    color: #2952E3;
+    background: #eef3ff;
+  }
+
+  .cid-auth-help {
+    font-size: 11px;
+    color: #728198;
+    margin: 5px 0 0;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+  }
+
+  /* Primary Action Button */
+  .cid-auth-submit-btn {
+    width: 100%;
+    background: linear-gradient(135deg, #2952E3 0%, #1c42cc 100%);
+    color: #fff;
+    border: none;
+    border-radius: 12px;
+    padding: 13px 18px;
+    font-size: 14px;
+    font-weight: 700;
+    cursor: pointer;
+    margin-top: 10px;
+    box-shadow: 0 4px 14px rgba(41, 82, 227, 0.25);
+    transition: all 0.2s ease;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    font-family: inherit;
+  }
+  .cid-auth-submit-btn:hover {
+    box-shadow: 0 6px 20px rgba(41, 82, 227, 0.35);
+    transform: translateY(-1px);
+    background: linear-gradient(135deg, #2348cb 0%, #1538b5 100%);
+  }
+  .cid-auth-submit-btn:disabled {
+    opacity: 0.65;
+    cursor: not-allowed;
+    transform: none !important;
+    box-shadow: none !important;
+  }
+
+  /* Reset Helper Footer */
+  .cid-auth-footer-link {
+    margin-top: 16px;
+    text-align: center;
+    font-size: 12.5px;
+    color: #637289;
+  }
+  .cid-auth-footer-link button {
+    color: #2952E3;
+    font-weight: 700;
+    background: none;
+    border: none;
+    padding: 0;
+    font-size: inherit;
+    cursor: pointer;
+    text-decoration: underline;
+    font-family: inherit;
+  }
+
+  /* Feedback Message */
+  .cid-auth-message {
+    margin-top: 14px;
+    padding: 11px 14px;
+    border-radius: 10px;
+    font-size: 12px;
+    font-weight: 600;
+    display: none;
+    line-height: 1.45;
+  }
+  .cid-auth-message.show {
+    display: block;
+  }
+  .cid-auth-message.error {
+    background: #fdf2f2;
+    border: 1px solid #f9d5d5;
+    color: #b92b27;
+  }
+  .cid-auth-message.success {
+    background: #edf9f2;
+    border: 1px solid #c9eed7;
+    color: #0d8244;
+  }
+  .cid-auth-message.info {
+    background: #eef4fe;
+    border: 1px solid #d5e4fd;
+    color: #1e4bbd;
+  }
+
+  /* Unverified Email Warning Box */
+  .cid-auth-unverified {
+    margin-top: 16px;
+    padding: 14px 16px;
+    background: #fff9ee;
+    border: 1px solid #f6dbad;
+    border-radius: 12px;
+  }
+  .cid-auth-unverified[hidden] { display: none !important; }
+  .cid-unverified-title {
+    font-size: 12px;
+    font-weight: 800;
+    color: #8c5b06;
+    margin-bottom: 4px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+  .cid-unverified-desc {
+    font-size: 11.5px;
+    color: #7d6537;
+    line-height: 1.45;
+    margin-bottom: 12px;
+  }
+  .cid-unverified-actions {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+  }
+  .cid-unverified-actions button {
+    flex: 1;
+    min-width: 120px;
+    padding: 8px 12px;
+    border-radius: 8px;
+    font-size: 11.5px;
+    font-weight: 700;
+    cursor: pointer;
+    border: 1px solid #dfb265;
+    background: #fff;
+    color: #8c5b06;
+    transition: all 0.15s ease;
+    font-family: inherit;
+  }
+  .cid-unverified-actions button:hover {
+    background: #fdf2de;
+  }
+  .cid-unverified-actions button.primary {
+    background: #8c5b06;
+    color: #fff;
+    border-color: #8c5b06;
+  }
+  .cid-unverified-actions button.primary:hover {
+    background: #754a02;
+  }
+
+  /* FOUC Prevention */
+  body:not(.cid-auth-unlocked) .app {
+    visibility: hidden !important;
+    pointer-events: none !important;
+  }
+
+  /* Legacy user bar hidden */
+  #cidAuthUser[hidden], .cid-auth-user[hidden] { display: none !important; }
+  .cid-auth-user { display: none !important; }
+
+  /* Global Dashboard Header (Active inside App) */
+  .cid-main-header {
+    background: #ffffff;
+    border-bottom: 1px solid var(--line);
+    padding: 11px 24px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    box-shadow: 0 1px 4px rgba(18, 23, 43, 0.04);
+  }
+  .cid-header-left {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+  .cid-header-brand-mark {
+    width: 32px;
+    height: 32px;
+    border-radius: 8px;
+    background: linear-gradient(135deg, var(--accent), #5B7FFF);
+    color: #fff;
+    font-family: var(--font-display);
+    font-weight: 800;
+    font-size: 14px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 2px 6px rgba(41, 82, 227, 0.25);
+    flex-shrink: 0;
+  }
+  .cid-header-title-wrap {
+    display: flex;
+    flex-direction: column;
+  }
+  .cid-header-title {
+    font-family: var(--font-display);
+    font-size: 14.5px;
+    font-weight: 700;
+    color: var(--ink);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    line-height: 1.25;
+  }
+  .cid-header-pill {
+    font-size: 10px;
+    font-weight: 800;
+    padding: 2px 7px;
+    border-radius: 6px;
+    background: var(--accent-soft);
+    color: var(--accent);
+    letter-spacing: 0.04em;
+  }
+  .cid-header-sub {
+    font-size: 11px;
+    color: var(--ink-soft);
+    font-family: var(--font-mono);
+  }
+
+  .cid-header-right {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+  .cid-user-badge {
+    display: flex;
+    align-items: center;
+    gap: 9px;
+    background: var(--surface-2);
+    border: 1px solid var(--line);
+    padding: 5px 12px;
+    border-radius: 999px;
+  }
+  .cid-user-avatar {
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #10b981, #059669);
+    color: #fff;
+    font-weight: 700;
+    font-size: 11.5px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    text-transform: uppercase;
+  }
+  .cid-user-details {
+    display: flex;
+    flex-direction: column;
+    text-align: left;
+  }
+  .cid-user-email-text {
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--ink);
+    line-height: 1.2;
+    max-width: 220px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+  .cid-user-tag {
+    font-size: 9px;
+    color: var(--eligible);
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+  }
+
+  .cid-logout-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 7px 13px;
+    background: #fff;
+    border: 1px solid #ffd0d0;
+    border-radius: 8px;
+    color: #dc3545;
+    font-size: 12px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    font-family: inherit;
+  }
+  .cid-logout-btn:hover {
+    background: #fff2f2;
+    border-color: #dc3545;
+    box-shadow: 0 2px 8px rgba(220, 53, 69, 0.15);
+  }
+  .cid-logout-btn svg {
+    stroke: currentColor;
+  }
+
+  /* Sidebar User Block (for Category Mode) */
+  .sidebar-user-section {
+    margin-top: auto;
+    padding: 14px 10px 0;
+    border-top: 1px solid rgba(255, 255, 255, 0.08);
+  }
+  .sidebar-user-card {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 9px 10px;
+    border-radius: 9px;
+    background: rgba(255, 255, 255, 0.06);
+    margin-bottom: 8px;
+  }
+  .sidebar-user-avatar {
+    width: 26px;
+    height: 26px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #10b981, #059669);
+    color: #fff;
+    font-weight: 700;
+    font-size: 11px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+  }
+  .sidebar-user-meta {
+    overflow: hidden;
+    text-align: left;
+    display: flex;
+    flex-direction: column;
+  }
+  .sidebar-user-email {
+    font-size: 11.5px;
+    font-weight: 600;
+    color: #f1f5f9;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    max-width: 135px;
+  }
+  .sidebar-user-status {
+    font-size: 9px;
+    color: #4ade80;
+    font-weight: 600;
+    letter-spacing: 0.02em;
+  }
+  .sidebar-logout-btn {
+    width: 100%;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    padding: 8px;
+    border-radius: 8px;
+    border: 1px solid rgba(239, 68, 68, 0.35);
+    background: rgba(239, 68, 68, 0.12);
+    color: #fca5a5;
+    font-size: 11.5px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    font-family: inherit;
+  }
+  .sidebar-logout-btn:hover {
+    background: rgba(239, 68, 68, 0.25);
+    color: #fff;
+    border-color: #ef4444;
+  }
+
+  @media(max-width: 650px) {
+    .cid-main-header {
+      padding: 10px 14px;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+    .cid-header-sub { display: none; }
+    .cid-user-email-text { max-width: 130px; }
+  }
 </style>
 <style>
 :root{
@@ -931,23 +1473,114 @@ body.cid-home-mode .sidebar [data-view="cutoffs"]{
 </head>
 <body>
 <div id="cidAuthGate">
-  <form class="cid-auth-card" id="cidAuthForm">
-    <h1>C.I.D Workspace</h1>
-    <p id="cidAuthIntro">Sign in with your official <strong>@pw.live</strong> email to continue.</p>
-    <div class="cid-auth-field"><label for="cidAuthEmail">PW email address</label><input id="cidAuthEmail" type="email" autocomplete="email" placeholder="name@pw.live" spellcheck="false" required><p class="cid-auth-help">Only @pw.live email addresses have access.</p></div>
-    <div class="cid-auth-field"><label for="cidAuthPassword">Password</label><input id="cidAuthPassword" type="password" autocomplete="current-password" minlength="6" required><p class="cid-auth-help">Minimum 6 characters.</p></div>
-    <div class="cid-auth-actions"><button type="submit" id="cidAuthSubmit">Sign in</button><button type="button" id="cidAuthSignup">Create account</button><button type="button" id="cidAuthReset">Reset password</button></div>
-    <div class="cid-auth-unverified" id="cidAuthUnverified" hidden>
-      <button type="button" id="cidAuthResend">Resend verification link</button>
-      <button type="button" id="cidAuthCheckStatus">Check verification status</button>
+  <div class="cid-auth-card">
+    <div class="cid-auth-brand-row">
+      <div class="cid-auth-logo">PW</div>
+      <div class="cid-auth-brand-text">
+        <span class="cid-auth-brand-title">Counsellor Intelligence Dashboard</span>
+        <span class="cid-auth-brand-badge">Official Internal Portal · PW</span>
+      </div>
     </div>
-    <div class="cid-auth-message" id="cidAuthMessage" role="status" aria-live="polite"></div>
-  </form>
+
+    <!-- Interactive Mode Switcher Tabs -->
+    <div class="cid-auth-tabs" id="cidAuthTabs">
+      <button type="button" class="cid-auth-tab active" id="cidTabSignIn">Sign In</button>
+      <button type="button" class="cid-auth-tab" id="cidTabSignUp">Create Account</button>
+    </div>
+
+    <div class="cid-auth-header">
+      <h1 id="cidAuthHeading">Welcome Back</h1>
+      <p id="cidAuthIntro">Sign in with your official <strong>@pw.live</strong> email to access dashboard intelligence.</p>
+    </div>
+
+    <form id="cidAuthForm" novalidate>
+      <div class="cid-auth-field">
+        <label for="cidAuthEmail">PW Email Address</label>
+        <input id="cidAuthEmail" type="email" autocomplete="email" placeholder="name@pw.live" spellcheck="false" required>
+        <p class="cid-auth-help">
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+          Restricted to @pw.live accounts
+        </p>
+      </div>
+
+      <div class="cid-auth-field" id="cidPasswordFieldBlock">
+        <div class="cid-label-row">
+          <label for="cidAuthPassword" id="cidPasswordLabel">Password</label>
+          <a href="#" class="cid-forgot-link" id="cidForgotLink">Forgot password?</a>
+        </div>
+        <div class="cid-password-wrap">
+          <input id="cidAuthPassword" type="password" autocomplete="current-password" placeholder="Enter your password" minlength="6" required>
+          <button type="button" id="cidTogglePassword" class="cid-password-toggle" title="View password" aria-label="Toggle password visibility">
+            <svg class="eye-open" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7Z"/><circle cx="12" cy="12" r="3"/></svg>
+            <svg class="eye-closed" style="display:none" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9.88 9.88a3 3 0 1 0 4.24 4.24"/><path d="M10.73 5.08A10.43 10.43 0 0 1 12 5c7 0 10 7 10 7a13.16 13.16 0 0 1-1.67 2.68"/><path d="M6.61 6.61A13.526 13.526 0 0 0 2 12s3 7 10 7a9.74 9.74 0 0 0 5.39-1.61"/><line x1="2" y1="2" x2="22" y2="22"/></svg>
+          </button>
+        </div>
+        <p class="cid-auth-help" id="cidPasswordHelp">Minimum 6 characters</p>
+      </div>
+
+      <button type="submit" id="cidAuthSubmit" class="cid-auth-submit-btn">
+        <span id="cidSubmitBtnText">Sign In to Workspace</span>
+        <span class="cid-btn-arrow">→</span>
+      </button>
+
+      <div class="cid-auth-footer-link" id="cidResetBackBlock" style="display:none;">
+        <button type="button" id="cidBackToSignIn">← Back to Sign In</button>
+      </div>
+
+      <!-- Unverified Email Warning Box -->
+      <div class="cid-auth-unverified" id="cidAuthUnverified" hidden>
+        <div class="cid-unverified-title">
+          <span>✉️</span> Email Verification Required
+        </div>
+        <div class="cid-unverified-desc">
+          A verification link was sent to your @pw.live inbox. Click it, then check status below.
+        </div>
+        <div class="cid-unverified-actions">
+          <button type="button" id="cidAuthResend">Resend Email</button>
+          <button type="button" id="cidAuthCheckStatus" class="primary">I've Verified (Check)</button>
+        </div>
+      </div>
+
+      <!-- Feedback Banner -->
+      <div class="cid-auth-message" id="cidAuthMessage" role="status" aria-live="polite"></div>
+    </form>
+  </div>
 </div>
+
 <div class="cid-auth-user" id="cidAuthUser" hidden><span id="cidAuthUserEmail"></span><button type="button" id="cidAuthLogout">Log out</button></div>
+
 <div class="app" aria-hidden="true" inert style="visibility:hidden">
   <aside class="sidebar" id="sidebar"></aside>
-  <main class="main"><section id="cid-category-home" class="cid-category-home">
+  <main class="main">
+    <!-- Top Global App Header with User Info & Prominent Logout -->
+    <header class="cid-main-header" id="cidMainHeader">
+      <div class="cid-header-left">
+        <div class="cid-header-brand-mark">PW</div>
+        <div class="cid-header-title-wrap">
+          <div class="cid-header-title">Counsellor Intelligence Dashboard <span class="cid-header-pill">C.I.D</span></div>
+          <div class="cid-header-sub">Physics Wallah · Counsellor Intelligence System</div>
+        </div>
+      </div>
+      <div class="cid-header-right">
+        <div class="cid-user-badge">
+          <div class="cid-user-avatar" id="cidHeaderAvatar">P</div>
+          <div class="cid-user-details">
+            <span class="cid-user-email-text" id="cidHeaderEmail">Signed In</span>
+            <span class="cid-user-tag">● PW Verified</span>
+          </div>
+        </div>
+        <button type="button" class="cid-logout-btn" id="cidHeaderLogout" title="Sign out of C.I.D">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/>
+            <polyline points="16 17 21 12 16 7"/>
+            <line x1="21" y1="12" x2="9" y2="12"/>
+          </svg>
+          <span>Log Out</span>
+        </button>
+      </div>
+    </header>
+
+    <section id="cid-category-home" class="cid-category-home">
 <div class="cid-home-hero"><div><div class="cid-eyebrow">C.I.D WORKSPACE</div><h1>What are you counselling for today?</h1>
 <p>Select a category to access exam intelligence, eligibility, cut-offs, results, colleges and counselling resources.</p></div>
 <div class="cid-home-badge"><strong>18</strong><span>Categories</span></div></div>
@@ -2985,7 +3618,7 @@ window.cidOpenCategory=function(name){
 };
 window.cidGoHome=function(){document.getElementById('cid-category-home').style.display='block';let e=document.getElementById('cid-empty-category');if(e)e.style.display='none';let bar=document.querySelector('.cid-category-topbar');if(bar)bar.style.display='none';currentPage='overview'; renderSidebar(); document.getElementById('pageRoot').innerHTML=''; renderOverview();};
 window.cidFilterCategories=function(){let q=(document.getElementById('cidCategorySearch')?.value||'').toLowerCase();document.querySelectorAll('.cid-category-card').forEach(c=>c.style.display=c.textContent.toLowerCase().includes(q)?'flex':'none');};
-document.addEventListener('DOMContentLoaded',()=>{document.querySelectorAll('.cid-category-card').forEach(c=>c.dataset.ready=ready.has(c.querySelector('.cid-category-title').textContent.trim())?'true':'false');let main=document.querySelector('main');if(main&&!document.querySelector('.cid-category-topbar')){let bar=document.createElement('div');bar.className='cid-category-topbar';bar.innerHTML='<button onclick="cidGoHome()">← All Categories</button><span class="cid-current-category"></span>';main.insertBefore(bar,main.firstChild);}});
+document.addEventListener('DOMContentLoaded',()=>{document.querySelectorAll('.cid-category-card').forEach(c=>c.dataset.ready=ready.has(c.querySelector('.cid-category-title').textContent.trim())?'true':'false');let main=document.querySelector('main');if(main&&!document.querySelector('.cid-category-topbar')){let bar=document.createElement('div');bar.className='cid-category-topbar';bar.innerHTML='<button onclick="cidGoHome()">← All Categories</button><span class="cid-current-category"></span><div style="margin-left:auto;display:flex;align-items:center;gap:10px;"><button type="button" class="cid-logout-btn" onclick="window.cidPerformLogout && window.cidPerformLogout()"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>Log Out</button></div>';main.insertBefore(bar,main.firstChild);}});
 })();
 </script>
 <style id="cid-category-flow-fix">
@@ -3427,7 +4060,20 @@ window.cidRenderCategorySidebar = function(categoryLabel, subtitle, items, activ
     '</div>'+
     '<div class="nav-label">'+categoryLabel.toUpperCase()+' MODULES</div>'+
     '<div class="mba-nav-section">'+navHTML+'</div>'+
-    '<div class="mba-sidebar-home"><button type="button" data-cid-sb-allcats>← All Categories</button></div>';
+    '<div class="mba-sidebar-home"><button type="button" data-cid-sb-allcats>← All Categories</button></div>'+
+    '<div class="sidebar-user-section">'+
+      '<div class="sidebar-user-card">'+
+        '<div class="sidebar-user-avatar" id="cidSidebarAvatar">'+((window.cidCurrentUserEmail||'P').charAt(0).toUpperCase())+'</div>'+
+        '<div class="sidebar-user-meta">'+
+          '<span class="sidebar-user-email" id="cidSidebarEmail">'+(window.cidCurrentUserEmail||'Signed in')+'</span>'+
+          '<span class="sidebar-user-status">● Verified Counsellor</span>'+
+        '</div>'+
+      '</div>'+
+      '<button type="button" class="sidebar-logout-btn" onclick="window.cidPerformLogout && window.cidPerformLogout()">'+
+        '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>'+
+        'Log Out'+
+      '</button>'+
+    '</div>';
   s.querySelectorAll('[data-cid-sb-item]').forEach(function(btn){
     btn.onclick = function(){ onSelect(this.getAttribute('data-cid-sb-item')); };
   });
