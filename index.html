@@ -21,6 +21,12 @@
   .cid-auth-user{position:fixed;right:18px;top:14px;z-index:40;display:flex;align-items:center;gap:8px;font-size:11px;color:var(--ink-soft)}
   #cidAuthUser[hidden],.cid-auth-user[hidden]{display:none !important}
   .cid-auth-user button{border:1px solid var(--line);border-radius:7px;background:var(--surface);padding:6px 9px;color:var(--accent);font-weight:700;cursor:pointer}
+  .cid-auth-unverified{margin-top:14px;display:flex;gap:8px;flex-wrap:wrap;padding:12px;background:#fff8ec;border:1px solid #f2d49e;border-radius:10px}
+  .cid-auth-unverified[hidden]{display:none !important}
+  .cid-auth-unverified button{flex:1;min-width:130px;padding:8px 11px;font-size:11.5px;font-weight:700;border-radius:7px;border:1px solid #dcb065;background:#fff;color:#8f5f08;cursor:pointer}
+  .cid-auth-unverified button:hover{background:#fdf2dc}
+  .cid-auth-unverified button:disabled{opacity:.55;cursor:not-allowed}
+  body:not(.cid-auth-unlocked) .app{visibility:hidden !important;pointer-events:none !important}
 </style>
 <style>
 :root{
@@ -931,11 +937,15 @@ body.cid-home-mode .sidebar [data-view="cutoffs"]{
     <div class="cid-auth-field"><label for="cidAuthEmail">PW email address</label><input id="cidAuthEmail" type="email" autocomplete="email" placeholder="name@pw.live" spellcheck="false" required><p class="cid-auth-help">Only @pw.live email addresses have access.</p></div>
     <div class="cid-auth-field"><label for="cidAuthPassword">Password</label><input id="cidAuthPassword" type="password" autocomplete="current-password" minlength="6" required><p class="cid-auth-help">Minimum 6 characters.</p></div>
     <div class="cid-auth-actions"><button type="submit" id="cidAuthSubmit">Sign in</button><button type="button" id="cidAuthSignup">Create account</button><button type="button" id="cidAuthReset">Reset password</button></div>
+    <div class="cid-auth-unverified" id="cidAuthUnverified" hidden>
+      <button type="button" id="cidAuthResend">Resend verification link</button>
+      <button type="button" id="cidAuthCheckStatus">Check verification status</button>
+    </div>
     <div class="cid-auth-message" id="cidAuthMessage" role="status" aria-live="polite"></div>
   </form>
 </div>
 <div class="cid-auth-user" id="cidAuthUser" hidden><span id="cidAuthUserEmail"></span><button type="button" id="cidAuthLogout">Log out</button></div>
-<div class="app">
+<div class="app" aria-hidden="true" inert style="visibility:hidden">
   <aside class="sidebar" id="sidebar"></aside>
   <main class="main"><section id="cid-category-home" class="cid-category-home">
 <div class="cid-home-hero"><div><div class="cid-eyebrow">C.I.D WORKSPACE</div><h1>What are you counselling for today?</h1>
