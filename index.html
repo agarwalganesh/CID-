@@ -984,7 +984,126 @@ body[data-theme="soft"]{--bg:#F6F1EB;--surface:#FFFDF9;--surface-2:#FAF6F0;--ink
 body[data-density="compact"] .main{padding-top:14px;padding-bottom:36px}body[data-density="compact"] .page-header{margin-bottom:14px}body[data-density="compact"] .card,body[data-density="compact"] .overview-card{padding:14px}
 @media(max-width:700px){.theme-switcher{display:none}}
 
-.topbar{position:sticky;top:0;z-index:30;padding:8px 0;background:var(--bg)}
+/* Unified Responsive Topbar in Category Mode */
+.topbar {
+  position: sticky;
+  top: 0;
+  z-index: 90;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 14px;
+  padding: 10px 24px;
+  background: rgba(255, 255, 255, 0.97);
+  backdrop-filter: blur(12px);
+  border-bottom: 1px solid var(--line);
+  box-shadow: 0 1px 4px rgba(18, 23, 43, 0.04);
+}
+
+.topbar-nav {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-shrink: 0;
+}
+
+.topbar-back-btn {
+  background: #fff;
+  border: 1px solid var(--line);
+  padding: 7px 12px;
+  border-radius: 8px;
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--ink-soft);
+  cursor: pointer;
+  transition: all 0.18s ease;
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+}
+.topbar-back-btn:hover {
+  border-color: var(--accent);
+  color: var(--accent);
+  background: var(--accent-soft);
+}
+
+.topbar-category-tag {
+  font-family: var(--font-display);
+  font-size: 13px;
+  font-weight: 800;
+  color: var(--accent);
+  background: var(--accent-soft);
+  padding: 4px 10px;
+  border-radius: 6px;
+  letter-spacing: 0.02em;
+}
+
+.topbar .search-wrap {
+  flex: 1;
+  max-width: 480px;
+  position: relative;
+}
+
+.topbar-actions {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-shrink: 0;
+}
+
+.topbar-user-chip {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  background: var(--surface-2);
+  border: 1px solid var(--line);
+  padding: 4px 10px 4px 5px;
+  border-radius: 999px;
+}
+
+.topbar-user-avatar {
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #10b981, #059669);
+  color: #fff;
+  font-weight: 700;
+  font-size: 11px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  text-transform: uppercase;
+}
+
+.topbar-user-email {
+  font-size: 11.5px;
+  font-weight: 600;
+  color: var(--ink);
+  max-width: 140px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+@media (max-width: 1200px) {
+  .topbar .search-wrap { max-width: 340px; }
+  .topbar-user-email { max-width: 110px; }
+}
+
+@media (max-width: 900px) {
+  .topbar {
+    padding: 10px 14px;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+  .topbar .search-wrap {
+    order: 3;
+    max-width: 100%;
+    width: 100%;
+  }
+  .topbar-actions { margin-left: auto; }
+  .topbar-user-chip { display: none; }
+}
 .nav-item:focus-visible,.theme-btn:focus-visible,button:focus-visible{outline:3px solid var(--accent-soft-2);outline-offset:2px}
 
 
@@ -1629,7 +1748,13 @@ body.cid-home-mode .sidebar [data-view="cutoffs"]{
 <button class="cid-category-card" onclick="cidOpenCategory('ACCA')">
 <span class="cid-category-icon">🌍</span><span class="cid-category-title">ACCA</span>
 <span class="cid-category-sub">Global Accountancy</span><span class="cid-category-arrow">→</span></button></div></section>
-    <div class="topbar">
+    <!-- Single Unified Topbar in Category Mode -->
+    <div class="topbar" id="categoryTopbar">
+      <div class="topbar-nav" id="topbarCategoryNav">
+        <button type="button" class="topbar-back-btn" onclick="cidGoHome()">← All Categories</button>
+        <span class="topbar-category-tag" id="topbarCategoryTag">Overview</span>
+      </div>
+
       <div class="search-wrap">
         <span class="search-icon">
           <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
@@ -1638,8 +1763,21 @@ body.cid-home-mode .sidebar [data-view="cutoffs"]{
         <div class="search-results" id="searchResults"></div>
       </div>
       
-      <button class="theme-btn" id="densityToggle" title="Toggle compact view">Compact</button>
-      <div class="topbar-updated" id="topbarUpdated">Last updated: 18 Aug 2026</div>
+      <div class="topbar-actions">
+        <button class="theme-btn" id="densityToggle" title="Toggle compact view">Compact</button>
+        <div class="topbar-user-chip" id="topbarUserChip">
+          <span class="topbar-user-avatar" id="topbarUserAvatar">P</span>
+          <span class="topbar-user-email" id="topbarUserEmail">Signed in</span>
+        </div>
+        <button type="button" class="cid-logout-btn" id="topbarLogoutBtn" onclick="window.cidPerformLogout && window.cidPerformLogout()" title="Log out">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/>
+            <polyline points="16 17 21 12 16 7"/>
+            <line x1="21" y1="12" x2="9" y2="12"/>
+          </svg>
+          <span>Log Out</span>
+        </button>
+      </div>
     </div>
 
     <div id="pageRoot"></div>
@@ -3618,26 +3756,27 @@ window.cidOpenCategory=function(name){
 };
 window.cidGoHome=function(){document.getElementById('cid-category-home').style.display='block';let e=document.getElementById('cid-empty-category');if(e)e.style.display='none';let bar=document.querySelector('.cid-category-topbar');if(bar)bar.style.display='none';currentPage='overview'; renderSidebar(); document.getElementById('pageRoot').innerHTML=''; renderOverview();};
 window.cidFilterCategories=function(){let q=(document.getElementById('cidCategorySearch')?.value||'').toLowerCase();document.querySelectorAll('.cid-category-card').forEach(c=>c.style.display=c.textContent.toLowerCase().includes(q)?'flex':'none');};
-document.addEventListener('DOMContentLoaded',()=>{document.querySelectorAll('.cid-category-card').forEach(c=>c.dataset.ready=ready.has(c.querySelector('.cid-category-title').textContent.trim())?'true':'false');let main=document.querySelector('main');if(main&&!document.querySelector('.cid-category-topbar')){let bar=document.createElement('div');bar.className='cid-category-topbar';bar.innerHTML='<button onclick="cidGoHome()">← All Categories</button><span class="cid-current-category"></span><div style="margin-left:auto;display:flex;align-items:center;gap:10px;"><button type="button" class="cid-logout-btn" onclick="window.cidPerformLogout && window.cidPerformLogout()"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>Log Out</button></div>';main.insertBefore(bar,main.firstChild);}});
+document.addEventListener('DOMContentLoaded',()=>{document.querySelectorAll('.cid-category-card').forEach(c=>c.dataset.ready=ready.has(c.querySelector('.cid-category-title').textContent.trim())?'true':'false');});
 })();
 </script>
 <style id="cid-category-flow-fix">
-/* HOME = only category selection */
+/* HOME = full width with top header and category grid */
 body.cid-home-mode .sidebar { display:none !important; }
 body.cid-home-mode .app { grid-template-columns:1fr !important; }
-body.cid-home-mode .main { width:100% !important; max-width:1400px; margin:0 auto; }
+body.cid-home-mode .main { width:100% !important; max-width:1440px; margin:0 auto; }
+body.cid-home-mode .cid-main-header { display:flex !important; }
 body.cid-home-mode .topbar,
 body.cid-home-mode #pageRoot,
 body.cid-home-mode .footer-note { display:none !important; }
-/* Legacy overview widgets are disabled on the main screen. */
 body.cid-home-mode .page-header,
 body.cid-home-mode .exam-hero-card,
 body.cid-home-mode .quicknav-grid,
 body.cid-home-mode .section-title,
 body.cid-home-mode .card { display:none !important; }
 
-/* CATEGORY VIEW = full original dashboard restored */
+/* CATEGORY VIEW = single unified view with sidebar + single topbar */
 body.cid-category-mode .sidebar { display:flex !important; }
+body.cid-category-mode .cid-main-header { display:none !important; }
 body.cid-category-mode .topbar { display:flex !important; }
 body.cid-category-mode #pageRoot { display:block !important; }
 body.cid-category-mode .footer-note { display:block !important; }
@@ -3663,13 +3802,10 @@ body.cid-category-mode .footer-note { display:block !important; }
     document.body.classList.remove('cid-home-mode');
     document.body.classList.add('cid-category-mode');
     if(homeEl()) homeEl().style.display = 'none';
-    if(barEl()){
-      barEl().style.display = 'flex';
-      const label = barEl().querySelector('.cid-current-category');
-      if(label) label.textContent = name;
-    }
-    if(pageRoot()) pageRoot().style.display = 'block';
     if(emptyEl()) emptyEl().style.display = 'none';
+    if(pageRoot()) pageRoot().style.display = 'block';
+    const tag = document.getElementById('topbarCategoryTag');
+    if(tag) tag.textContent = name;
   }
 
   // Final category action: directly render the ORIGINAL existing CSIR/JAM pages.

@@ -243,6 +243,11 @@ function updateUserInfo(email) {
   if (headerEmail) headerEmail.textContent = safeEmail;
   if (headerAvatar) headerAvatar.textContent = initial;
 
+  const topbarEmail = document.getElementById("topbarUserEmail");
+  const topbarAvatar = document.getElementById("topbarUserAvatar");
+  if (topbarEmail) topbarEmail.textContent = safeEmail;
+  if (topbarAvatar) topbarAvatar.textContent = initial;
+
   const sidebarEmail = document.getElementById("cidSidebarEmail");
   const sidebarAvatar = document.getElementById("cidSidebarAvatar");
   if (sidebarEmail) sidebarEmail.textContent = safeEmail;
