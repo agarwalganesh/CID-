@@ -359,7 +359,7 @@
     if(elBody){
       var currentView = r.getAttribute('data-current-view') || '';
       var parts = currentView.split(':');
-      if(parts[1] === 'eligibility') bindChecker(parts[0]);
+      if(parts[1] === 'eligibility' && parts[0]) bindChecker(parts[0]);
     }
   }
 
@@ -397,10 +397,7 @@
           {key:'sbiclerk', label:'SBI Clerk'},
           {key:'rbigradeb', label:'RBI Grade B'}
         ], 'overview', function(key){
-          for(var i=0;i<2;i++){
-            var backBtn = document.querySelector('[data-bk-back]');
-            if(backBtn) backBtn.click();
-          }
+          render('overview');
           if(key !== 'overview'){
             var openBtn = document.querySelector('[data-bk-exam="'+key+'"]');
             if(openBtn) openBtn.click();

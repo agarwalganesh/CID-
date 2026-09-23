@@ -315,7 +315,7 @@
       var examId = name === 'CSIR-NET' ? 'csirnet' : 'ugcnet';
       document.body.classList.remove('cid-home-mode');
       document.body.classList.add('cid-category-mode');
-      currentPage = examId;
+      try { if(typeof window.cidSetCurrentPage === 'function') window.cidSetCurrentPage(examId); } catch(_) {}
       if(typeof window.cidRenderCategorySidebar === 'function'){
         var sbItems = [
           {key:'overview', label:name+' Overview'},

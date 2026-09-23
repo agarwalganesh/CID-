@@ -52,6 +52,8 @@ let currentMode = "signin"; // 'signin' | 'signup' | 'reset'
 // Keep track of current email for dynamic sidebars
 window.cidCurrentUserEmail = "";
 
+const MIN_PASSWORD_LENGTH = 6;
+
 // -------------------------------------------------------------
 // Helper: Normalise & Validate Email Domain
 // -------------------------------------------------------------
@@ -103,6 +105,8 @@ function setLoading(isLoading, targetBtn = null, text = "Loading...") {
   } else if (!isLoading && activeLoadingTarget) {
     if (submitBtnText && activeLoadingTarget === submitButton) {
       submitBtnText.textContent = originalTargetText.replace("→", "").trim();
+    } else if (activeLoadingTarget.firstChild && activeLoadingTarget.firstChild.nodeType === Node.TEXT_NODE) {
+      activeLoadingTarget.firstChild.nodeValue = originalTargetText;
     } else {
       activeLoadingTarget.textContent = originalTargetText;
     }
@@ -223,8 +227,8 @@ function validateInput(email, password, { requirePassword = true, isSignUp = fal
       passwordInput?.focus();
       return false;
     }
-    if (password.length < 6) {
-      setMessage("Password must be at least 6 characters long.", "error");
+    if (password.length < MIN_PASSWORD_LENGTH) {
+      setMessage("Password must be at least " + MIN_PASSWORD_LENGTH + " characters long.", "error");
       passwordInput?.focus();
       return false;
     }

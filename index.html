@@ -1753,6 +1753,7 @@ body.cid-home-mode .sidebar [data-view="cutoffs"]{
       <div class="topbar-nav" id="topbarCategoryNav">
         <button type="button" class="topbar-back-btn" onclick="cidGoHome()">← All Categories</button>
         <span class="topbar-category-tag" id="topbarCategoryTag">Overview</span>
+        <span class="cid-current-category" style="display:none;"></span>
       </div>
 
       <div class="search-wrap">
@@ -1765,6 +1766,7 @@ body.cid-home-mode .sidebar [data-view="cutoffs"]{
       
       <div class="topbar-actions">
         <button class="theme-btn" id="densityToggle" title="Toggle compact view">Compact</button>
+        <span id="topbarUpdated" class="topbar-updated">Last updated: —</span>
         <div class="topbar-user-chip" id="topbarUserChip">
           <span class="topbar-user-avatar" id="topbarUserAvatar">P</span>
           <span class="topbar-user-email" id="topbarUserEmail">Signed in</span>
@@ -2445,16 +2447,14 @@ const RESULTS = [
   {exam:"iitjam",year:"2024",subject:"Biotechnology",name:"Srishti Pandey",rank:85,source:"PW IIT-JAM 2024 result file"},
   {exam:"iitjam",year:"2024",subject:"Biotechnology",name:"Nilesh Kumar Dewangan",rank:86,source:"PW IIT-JAM 2024 result file"},
   {exam:"iitjam",year:"2024",subject:"Biotechnology",name:"Anshu Mathuria",rank:90,source:"PW IIT-JAM 2024 result file"},
-  {exam:"iitjam",year:"2024",subject:"Biotechnology",name:"Anshu Mathuria",rank:90,source:"PW IIT-JAM 2024 result file"},
   {exam:"iitjam",year:"2024",subject:"Biotechnology",name:"Jay Lakhara",rank:92,source:"PW IIT-JAM 2024 result file"},
-  {exam:"iitjam",year:"2024",subject:"Biotechnology (BT)",name:"Sanskriti Barman",rank:64,source:"PW IIT-JAM 2024 result file"},
+  {exam:"iitjam",year:"2024",subject:"Biotechnology",name:"Sanskriti Barman",rank:64,source:"PW IIT-JAM 2024 result file"},
   {exam:"iitjam",year:"2024",subject:"Chemistry",name:"Pranjal Sharma",rank:8,source:"PW IIT-JAM 2024 result file"},
   {exam:"iitjam",year:"2024",subject:"Chemistry",name:"Parth",rank:11,source:"PW IIT-JAM 2024 result file"},
   {exam:"iitjam",year:"2024",subject:"Chemistry",name:"Dhruv Kansal",rank:15,source:"PW IIT-JAM 2024 result file"},
   {exam:"iitjam",year:"2024",subject:"Chemistry",name:"Jatin Kerkar",rank:22,source:"PW IIT-JAM 2024 result file"},
   {exam:"iitjam",year:"2024",subject:"Chemistry",name:"Ritu Rajput",rank:23,source:"PW IIT-JAM 2024 result file"},
   {exam:"iitjam",year:"2024",subject:"Chemistry",name:"Ritesh Majhi",rank:25,source:"PW IIT-JAM 2024 result file"},
-  {exam:"iitjam",year:"2024",subject:"Chemistry",name:"Tarun garg",rank:58,source:"PW IIT-JAM 2024 result file"},
   {exam:"iitjam",year:"2024",subject:"Chemistry",name:"Tarun garg",rank:58,source:"PW IIT-JAM 2024 result file"},
   {exam:"iitjam",year:"2024",subject:"Chemistry",name:"Tushar Kailas Paulbudhe",rank:60,source:"PW IIT-JAM 2024 result file"},
   {exam:"iitjam",year:"2024",subject:"Chemistry",name:"Dimpal",rank:61,source:"PW IIT-JAM 2024 result file"},
@@ -2463,9 +2463,7 @@ const RESULTS = [
   {exam:"iitjam",year:"2024",subject:"Mathematics",name:"Anubrata Ghosh",rank:40,source:"PW IIT-JAM 2024 result file"},
   {exam:"iitjam",year:"2024",subject:"Mathematics",name:"Samiun Ali Molla",rank:59,source:"PW IIT-JAM 2024 result file"},
   {exam:"iitjam",year:"2024",subject:"Mathematics",name:"Prashu",rank:60,source:"PW IIT-JAM 2024 result file"},
-  {exam:"iitjam",year:"2024",subject:"Mathematics",name:"Prashu",rank:60,source:"PW IIT-JAM 2024 result file"},
   {exam:"iitjam",year:"2024",subject:"Mathematics",name:"Chhavi Bhaskar",rank:63,source:"PW IIT-JAM 2024 result file"},
-  {exam:"iitjam",year:"2024",subject:"Mathematics",name:"Kundan Pratap",rank:67,source:"PW IIT-JAM 2024 result file"},
   {exam:"iitjam",year:"2024",subject:"Mathematics",name:"Kundan Pratap",rank:67,source:"PW IIT-JAM 2024 result file"},
   {exam:"iitjam",year:"2024",subject:"Mathematics",name:"Kundan Pratap",rank:67,source:"PW IIT-JAM 2024 result file"},
   {exam:"iitjam",year:"2024",subject:"Physics",name:"Anand Kumar",rank:14,source:"PW IIT-JAM 2024 result file"},
@@ -2475,8 +2473,6 @@ const RESULTS = [
   {exam:"iitjam",year:"2024",subject:"Physics",name:"Satyapriya Behera",rank:41,source:"PW IIT-JAM 2024 result file"},
   {exam:"iitjam",year:"2024",subject:"Physics",name:"Mahima",rank:57,source:"PW IIT-JAM 2024 result file"},
   {exam:"iitjam",year:"2024",subject:"Physics",name:"SURYAKANTA NISHANK",rank:61,source:"PW IIT-JAM 2024 result file"},
-  {exam:"iitjam",year:"2024",subject:"Physics",name:"SURYAKANTA NISHANK",rank:61,source:"PW IIT-JAM 2024 result file"},
-  {exam:"iitjam",year:"2024",subject:"Physics",name:"Sneha karmakar",rank:79,source:"PW IIT-JAM 2024 result file"},
   {exam:"iitjam",year:"2024",subject:"Physics",name:"Sneha karmakar",rank:79,source:"PW IIT-JAM 2024 result file"},
 {"exam":"csirnet","year":"2024","subject":"Chemical Sciences","name":"sweety","rank":21,"track":"NET","session":"Dec 2024","source":"PW CSIR-NET result responses"},
 {"exam":"csirnet","year":"2024","subject":"Chemical Sciences","name":"Ayan Kumar Das","rank":25,"track":"NET","session":"Dec 2024","source":"PW CSIR-NET result responses"},
@@ -2631,7 +2627,8 @@ const ICONS = {
   bars:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 20V10M12 20V4M20 20v-7"/></svg>',
 };
 
-let currentPage = "overview";
+window.currentPage = "overview";
+window.cidSetCurrentPage = function(p){ window.currentPage = p; };
 
 /* ---------------------------------------------------------------------- */
 /* SIDEBAR                                                                */
@@ -2646,7 +2643,7 @@ function renderSidebar(){
     </div>
     <div class="nav-label">Navigate</div>
     ${NAV_ITEMS.map(item => `
-      <button class="nav-item ${item.id===currentPage?'active':''}" data-nav="${item.id}">
+      <button class="nav-item ${item.id===window.currentPage?'active':''}" data-nav="${item.id}">
         <span class="nav-icon">${ICONS[item.icon]}</span>${item.label}
       </button>
     `).join("")}
@@ -2658,7 +2655,7 @@ function renderSidebar(){
 }
 
 function goTo(pageId, sub){
-  currentPage = pageId;
+  window.currentPage = pageId;
   renderSidebar();
   document.getElementById("pageRoot").innerHTML = "";
   const renderFn = PAGE_RENDERERS[pageId];
@@ -3632,12 +3629,16 @@ function generatePitch(examId, subjectName, style){
   const exam = EXAMS[examId];
   const cutoffSource = examId==="csirnet"
     ? CSIR_CUTOFFS.find(c=>c.subject===subjectName && c.track==="JRF" && c.verified)
-    : JAM_CUTOFFS.find(c=>c.subject===subjectName && c.verified);
+    : (examId==="ugcnet"
+        ? UGC_CUTOFFS.find(c=>c.subject===subjectName)
+        : JAM_CUTOFFS.find(c=>c.subject===subjectName && c.verified));
   const hasCutoff = !!cutoffSource;
   const cutoffLine = hasCutoff
     ? (examId==="csirnet"
         ? `In the most recent verified session (${cutoffSource.session}), the UR qualifying mark for ${subjectName} was around ${cutoffSource.UR}${cutoffSource.unit==="percentile"?" percentile":"%"}.`
-        : `In ${cutoffSource.session}, the General category qualifying mark for ${subjectName} was ${cutoffSource.General} out of 100.`)
+        : (examId==="ugcnet"
+            ? `In ${cutoffSource.session}, the UR aggregate cut-off for ${subjectName} (${cutoffSource.track||"General"}) was ${cutoffSource.UR} out of 300.`
+            : `In ${cutoffSource.session}, the General category qualifying mark for ${subjectName} was ${cutoffSource.General} out of 100.`))
     : `Exact recent cut-off figures for ${subjectName} aren't verified yet in this dashboard — pull the latest from the official site before quoting a number.`;
 
   const templates = {
@@ -3750,11 +3751,11 @@ const ready=new Set(['CSIR-NET','IIT-JAM']);
 window.cidOpenCategory=function(name){
  const home=document.getElementById('cid-category-home'); if(home)home.style.display='none';
  let bar=document.querySelector('.cid-category-topbar'); if(bar){bar.style.display='flex';bar.querySelector('.cid-current-category').textContent=name;}
- if(name==='CSIR-NET'){ currentPage='csirnet'; renderSidebar(); document.getElementById('pageRoot').innerHTML=''; renderExamPage('csirnet'); }
- else if(name==='IIT-JAM'){ currentPage='iitjam'; renderSidebar(); document.getElementById('pageRoot').innerHTML=''; renderExamPage('iitjam'); }
+ if(name==='CSIR-NET'){ window.currentPage='csirnet'; renderSidebar(); document.getElementById('pageRoot').innerHTML=''; renderExamPage('csirnet'); }
+ else if(name==='IIT-JAM'){ window.currentPage='iitjam'; renderSidebar(); document.getElementById('pageRoot').innerHTML=''; renderExamPage('iitjam'); }
  else{let e=document.getElementById('cid-empty-category');if(!e){e=document.createElement('section');e.id='cid-empty-category';e.style.cssText='max-width:760px;margin:40px auto;padding:38px;background:#fff;border:1px solid #e4e9f0;border-radius:20px;text-align:center';document.querySelector('main')?.appendChild(e);}e.innerHTML='<div style="font-size:38px;margin-bottom:12px">🚧</div><h2 style="margin:0 0 8px">'+name+' Intelligence</h2><p style="margin:0;color:#667085;line-height:1.6">This category is ready to be built. We will add its exam details, eligibility, cut-offs, results and counselling resources step by step.</p>';e.style.display='block';}
 };
-window.cidGoHome=function(){document.getElementById('cid-category-home').style.display='block';let e=document.getElementById('cid-empty-category');if(e)e.style.display='none';let bar=document.querySelector('.cid-category-topbar');if(bar)bar.style.display='none';currentPage='overview'; renderSidebar(); document.getElementById('pageRoot').innerHTML=''; renderOverview();};
+window.cidGoHome=function(){document.getElementById('cid-category-home').style.display='block';let e=document.getElementById('cid-empty-category');if(e)e.style.display='none';let bar=document.querySelector('.cid-category-topbar');if(bar)bar.style.display='none';window.currentPage='overview'; renderSidebar(); document.getElementById('pageRoot').innerHTML=''; renderOverview();};
 window.cidFilterCategories=function(){let q=(document.getElementById('cidCategorySearch')?.value||'').toLowerCase();document.querySelectorAll('.cid-category-card').forEach(c=>c.style.display=c.textContent.toLowerCase().includes(q)?'flex':'none');};
 document.addEventListener('DOMContentLoaded',()=>{document.querySelectorAll('.cid-category-card').forEach(c=>c.dataset.ready=ready.has(c.querySelector('.cid-category-title').textContent.trim())?'true':'false');});
 })();
@@ -3885,7 +3886,24 @@ body.cid-category-mode .footer-note { display:block !important; }
 <div class="top-college-item"><span class="top-college-rank">10</span><div><span class="top-college-name">IIM Mumbai</span><span class="top-college-type">Operations & Supply Chain strength</span></div></div>
 <div class="top-college-item"><span class="top-college-rank">11</span><div><span class="top-college-name">JBIMS Mumbai</span><span class="top-college-type">Strong Finance · MAH MBA CET</span></div></div>
 <div class="top-college-item"><span class="top-college-rank">12</span><div><span class="top-college-name">MDI Gurgaon</span><span class="top-college-type">Strong national B-school · CAT</span></div></div>
-</div></div><p class="mba-source-note">Counselling note: programme structure, placements, electives and student profile should be checked before recommending a final college.</p>`; sec.appendChild(d);} const obs=new MutationObserver(()=>addSpec()); obs.observe(document.documentElement,{childList:true,subtree:true}); addSpec();})();
+</div></div><p class="mba-source-note">Counselling note: programme structure, placements, electives and student profile should be checked before recommending a final college.</p>`; sec.appendChild(d);}
+function watchOnce(){
+  const target=document.getElementById('mba-colleges');
+  if(target){
+    addSpec();
+    const obs=new MutationObserver(()=>{
+      if(document.getElementById('mba-specialisation-guide')){obs.disconnect();return;}
+      addSpec();
+    });
+    obs.observe(document.body,{childList:true,subtree:true});
+  } else {
+    const obs=new MutationObserver(function(){const t=document.getElementById('mba-colleges'); if(t){obs.disconnect();watchOnce();}});
+    obs.observe(document.body,{childList:true,subtree:true});
+  }
+}
+if(document.readyState==='loading') document.addEventListener('DOMContentLoaded',watchOnce);
+else watchOnce();
+})();
 </script>
 
 <script src="categories/upsc.js"></script>
